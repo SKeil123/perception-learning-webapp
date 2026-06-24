@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <meta charset='utf-8'>
+
+    <head>
+        <link rel='stylesheet' type='text/css' href='../css/header_bar.css'>
+    </head>
+
+    <body>
+        <span class='left'>
+            <span class='HBelem'>
+                <a class='homeIcon' target='_parent' href='../index.html'><img
+                        src='../resources/icon/home_icon.svg' alt='HOME' /></a>
+            </span>
+            <span class='HBelem'>
+                <input id='backButton' type='image'
+                    src='../resources/icon/arrow_back.svg'
+                    onclick="window.location.href='javascript:openUnit(' + urlParameters.get('unit') + ')';">
+            </span>
+            <span class='HBelem langButton'>
+                <label class='lang' key='langSelection'>
+                </label>
+                <select class='translate'
+                    style='background:#3B3B3B; color:white; font-size: 20px;'>
+                    <option value='de'>DE</option>
+                    <option value='en'>EN</option>
+                </select>
+            </span>
+        </span>
+    </body>
+</html>

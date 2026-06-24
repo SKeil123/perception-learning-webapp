@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <meta charset='utf-8'>
+
+    <head>
+        <script src='https://code.jquery.com/jquery-3.7.1.js'
+            integrity='sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4='' crossorigin='
+            anonymous'></script>
+        <script>
+        $(function () {
+            $('#pc_header').load('../components/header_bar_new.html');
+            //$('#mobile_header').load('../components/sidetogglebar.html');
+            if ('currentModule' in localStorage) {
+                $('#body').load('../modules/' + localStorage.getItem('currentModule') + '.html');
+            }
+        });
+
+        function changeModule(module) {
+            localStorage.setItem('currentModule', module);
+            $('#body').load('../modules/' + module + '.html');
+        }
+    </script>
+
+        <title class='lang' key='pageTitle'>
+        </title>
+    </head>
+
+    <body>
+        <div id='pc_header'></div>
+        <!--<div id='mobile_header'></div>-->
+        <div id='body'></div>
+    </body>

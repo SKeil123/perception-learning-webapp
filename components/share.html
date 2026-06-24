@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <meta charset='utf-8'>
+
+    <head>
+        <script src='https://code.jquery.com/jquery-3.7.1.js'
+            integrity='sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=''
+            crossorigin='anonymous'>
+        </script>
+        <script>
+            $(function () {
+                var sharePopup = document.createElement('div');
+                sharePopup.setAttribute('style', 'position: relative; top: 100px; left: 50%; transition: transform 0.4s, top 0.4s; display: none; align-items: center; justify-content: center; opacity: 0; z-index: -99; background: #3B3B3B; border-radius: 15px; transform: translate(-50%, -50%) scale(0.1); padding: 30px 30px 30px 30px; color:white;');
+                sharePopup.setAttribute('id', 'sharePopup');
+
+                var closePopup = document.createElement('input');
+                closePopup.setAttribute('id', 'closePopup');
+                closePopup.setAttribute('type', 'button');
+                closePopup.setAttribute('value', 'X');
+                closePopup.setAttribute('style', 'height:6%; width:6%; font-size:153%; background:#F08080; float: right;');
+                closePopup.setAttribute('onClick', "window.location.href='javascript:closeSharePopup()'");
+
+                var headline = document.createElement('h2');
+                headline.setAttribute('class', 'lang');
+                headline.setAttribute('key', 'shareHeadline');
+                headline.setAttribute('style', 'text-align: center; margin-top: -1%')
+                //headline.innerHTML = 'Share the current state';//'Teile den aktuellen Zustand'
+
+                var link = document.createElement('p');
+                link.setAttribute('id', 'link');
+                link.innerHTML = '';
+
+                var copyToClipboard = document.createElement('input');
+                copyToClipboard.setAttribute('class', 'lang');
+                copyToClipboard.setAttribute('key', 'shareCopyToClipboard');
+                copyToClipboard.setAttribute('id', 'copyToClipboard');
+                copyToClipboard.setAttribute('type', 'button');
+                //copyToClipboard.setAttribute('value', 'Copy');
+                copyToClipboard.setAttribute('onClick', "window.location.href='javascript:copyToClipboard()'");
+                copyToClipboard.setAttribute('style', 'width: 100%;');
+
+                var confirmation = document.createElement('p');
+                confirmation.setAttribute('class', 'lang');
+                confirmation.setAttribute('key', 'shareConfirmation');
+                confirmation.setAttribute('id', 'confirmation');
+                confirmation.setAttribute('style', 'display: none; color: green; top-margin: -10%');
+                //confirmation.innerHTML = 'Copying the link from the current state was successful ✓';
+
+                sharePopup.appendChild(closePopup);
+                sharePopup.appendChild(headline);
+                sharePopup.appendChild(link);
+                sharePopup.appendChild(copyToClipboard);
+                sharePopup.appendChild(confirmation);
+                document.getElementById('share').appendChild(sharePopup);
+                //document.getElementById('interaction_right_area').appendChild(document.getElementById('share'));
+            });
+
+            function shareInteraction() {
+                console.log('Generating URL to share the current interaction...');
+                if (sessionStorage.getItem('settings') != '') {
+                    if (window.location.href.includes('&amp;')) {
+                        currentURL = window.location.href.replace(/&amp;/g, '&');
+                    } else {
+                        currentURL = window.location.href;
+                    }
+                    output = currentURL.replace(currentURL.split(/(&interaction=)[0-9]+/g)[2], '') + '&' + sessionStorage.getItem('settings');
+                } else {
+                    output = window.location.href;
+                }
+                console.log('Generated following URL to share: ' + output);
+
+                // TODO : 100% height & width + light-transparent background + disable 'Share'-button
+
+                //document.getElementById('share#button').getElementsByTagName('input').disabled = true;
+
+                var popup = document.getElementById('sharePopup');
+                document.getElementById('confirmation').setAttribute('style', 'display: none; color: green;');
+                popup.setAttribute('style', 'position: relative; top: 100px; left: 50%; transition: transform 0.4s, top 0.4s; align-items: center; justify-content: center; opacity: 1; z-index: 99; background: #3B3B3B; border-radius: 15px; transform: translate(-50%, -50%) scale(1); padding: 30px 30px 30px 30px; color:white;')
+                document.getElementById('link').innerHTML = output;
+            }
+
+            function closeSharePopup() {
+                var popup = document.getElementById('sharePopup');
+                popup.setAttribute('style', 'position: relative; top: 100px; left: 50%; transition: transform 0.4s, top 0.4s; display: none; align-items: center; justify-content: center; opacity: 0; z-index: -99; background: #3B3B3B; border-radius: 15px; transform: translate(-50%, -50%) scale(0.1); padding: 0px 0px 0px 0px; color:white;')
+                //document.getElementById('share').getElementById('button').disabled = false;
+            }
+
+            function copyToClipboard() {
+                navigator.clipboard.writeText(document.getElementById('link').innerHTML);
+                document.getElementById('confirmation').setAttribute('style', 'display: inline; color: green;');
+            }
+        </script>
+    </head>
+    <body>
+        <div id='share'>
+            <input class='lang' id='button' key='shareButton'
+            style="color:white; background:#3B3B3B; border-radius: 90px; padding:10px; box-shadow: 1px 2px 0px 1px rgba(0, 0, 0, 0.4); font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 20px;"
+            type='button'
+            value='Teilen'
+            onclick="window.location.href='javascript:shareInteraction()'"/>
+        </div>
+    </body>
+</html>

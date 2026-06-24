@@ -1,0 +1,54 @@
+<script>
+    var span = document.createElement('span');
+    span.innerHTML = '&nbsp';
+
+        numberOfInteractionsPerUnit = {
+            'm1u1': 6,
+            'm1u2': 5,
+            'm1u3': 2,
+            'm2u1': 3,
+            'm2u2': 6,
+            'm2u3': 3,
+            'm2u4': 4,
+            'm3u1': 4,
+            'm3u2': 4,
+            'm3u3': 2,
+            'm3u4': 4,
+            'm4u1': 4,
+            'm4u2': 6,
+            'm4u3': 3
+        };
+
+        console.log(numberOfInteractionsPerUnit)
+
+        if (urlParameters.has('module') && urlParameters.has('unit')) {
+            function openInteraction(interaction) {
+                var moduleSite = window.open('../interactions/interaction.html?module=' + urlParameters.get('module') + '&unit=' + urlParameters.get('unit') + '&interaction=' + interaction, '_self');
+            }
+
+            numberOfButtons = numberOfInteractionsPerUnit['m' + urlParameters.get('module') + 'u' + urlParameters.get('unit')];
+            console.log('Number of buttons: ' + numberOfButtons);
+
+            var interaction_navigation_bar = document.getElementById('interaction_navigation');
+            for (var i = 0; i < numberOfButtons; i++) {
+                var input = document.createElement('input');
+                input.setAttribute('class', 'lang');
+                input.setAttribute('key', 'interactionButton' + (i + 1));
+                input.setAttribute('style', 'height: 6%; width:' + (50 / (numberOfButtons)) + '%; min-width: 50px; max-width: 6%; font-size:153%; color:white; background:#23396e; border-radius: 90px; padding: 10px; margin: 0.5%;');
+                input.setAttribute('type', 'button');
+                input.setAttribute('value', 'Interaktion ' + (i + 1));
+                input.setAttribute('onClick', "window.location.href='javascript:openInteraction(" + (i + 1) + ")'");
+                if (urlParameters.get('interaction') === (i + 1).toString()) {
+                    input.setAttribute('style', 'height: 6%; width:' + (50 / (numberOfButtons)) + '%; min-width: 50px; max-width: 6%; font-size:153%; color:white; background:#3b3b3b; border-radius: 90px; padding: 10px; margin: 0.5%; box-shadow: 1px 2px 0px 1px rgba(0, 0, 0, 0.4);');
+                    input.disabled = true;
+                }
+                console.log('Iteration: ' + i);
+                console.log(input);
+                if (i != numberOfButtons-1) {
+                    input.appendChild(span);
+                }
+                interaction_navigation_bar.appendChild(input);
+            }
+        }
+
+    </script>

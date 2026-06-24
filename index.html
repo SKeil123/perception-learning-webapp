@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <meta charset='utf-8'>
+
+    <head>
+        <title class='lang' key='pageTitle'>Startseite</title>
+        <script src='https://code.jquery.com/jquery-3.7.1.js'
+            integrity='sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4='' crossorigin='
+            anonymous'></script>
+        <link rel='stylesheet' type='text/css' href='css/index.css'>
+        <link rel='stylesheet' type='text/css' href='css/theme.css'>
+        <link rel='stylesheet' type='text/css' href='css/responsive.css'>
+        <link rel='stylesheet' type='text/css' href='css/components.css'>
+        <link rel='manifest' href='manifest.json'>
+        <script type='text/javascript'
+            src='scripts/translations/dictionary_index.js'></script>
+        <script type='text/javascript'
+            src='scripts/language_selection.js'></script>
+        <script type='text/javascript'
+            src='scripts/manageNavigationTree.js'></script>
+        <script>
+            // unnötiger call, da 'updateTranslations()' aktuell doppelt aufgerufen wird; 
+            // einfachste Lösung, die man aber durch etwas Schöneres ersetzen sollte => Effizienz + Verständnis
+            window.addEventListener('load', () => {
+                updateTranslations(localStorage.getItem('lang'));
+
+                const urlParameters = new URLSearchParams(window.location.search.replace(/&amp;/g, '&'));
+                function loadTree() {
+                if (urlParameters.has('module') && urlParameters.has('unit')) {
+                    var subtree = 'module' + urlParameters.get('module') + '_unit_subtree' + urlParameters.get('unit');
+                    unfoldNavigationTree(subtree);
+                }
+                }
+                // loadTree();
+                // rough fix for navigation tree not opening up; not sure how/why exactly it works
+                setTimeout(function() {loadTree();}, 100);
+                setTimeout(function() {loadTree();}, 300);
+                setTimeout(function() {loadTree();}, 500);
+            });
+        </script>
+    </head>
+
+    <body>
+        <div class='pc'>
+            <table>
+                <tr>
+                    <div style='text-align: left; margin-bottom: -2%;'>
+                        <div>
+                            <select class='translate'>
+                                <option value='de'>DE</option>
+                                <option value='en'>EN</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div style='text-align: left; margin-top: -2%;'>
+                                <h1 class='lang headline' key='headline'></h1>
+                                <h5 class='lang credits' key='credits'
+                                    style='font-size: 22px; font-weight: 190;margin-top: 10px;margin-bottom: 10px; text-align: center;'>
+                                </h5>
+                                <br><hr><br>
+                                <br>
+                                <div class='module-container'>
+                                    <div class='module-box'
+                                        id='pc_module1'></div>
+                                    <div class='module-box'
+                                        id='pc_module2'></div>
+                                    <div class='module-box'
+                                        id='pc_module3'></div>
+                                    <div class='module-box'
+                                        id='pc_module4'></div>
+                                </div>
+                                <p>&nbsp;</p>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+                <tr>
+                    <!--<div class='mobile'>
+                        <div style='text-align: left; margin-bottom: -7%px;'>
+                            <label class='lang' key='langSelection'
+                                style='font-size: 53px;'>
+                            </label>
+                            <select class='translate'
+                                style="height: fit-content; width: fit-content; font-size: 51px;">
+                                <option value='de'>German</option>
+                                <option value='en'>English</option>
+                            </select>
+                        </div>
+                        <div
+                            style='text-align: center; margin-top: 3%; min-width: fit-content;'>
+                            <h1 class='lang' key='headline_mobile'
+                                style='font-size: 103px; margin-bottom: 15%'>
+                            </h1>
+                            
+                                <div class='module-container'>
+                                    <div class='module-box'
+                                        id='mobile_module1'></div>
+                                    <div class='module-box'
+                                        id='mobile_module2'></div>
+                                    <div class='module-box'
+                                        id='mobile_module3'></div>
+                                    <div class='module-box'
+                                        id='mobile_module4'></div>
+                                    <p>&nbsp;</p>
+                                </div>
+                        </div>
+                            <h5 class='lang' key='credits_mobile'
+                                style='font-size: 22px; font-weight: 190;'>
+                            </h5>
+                    </div>-->
+                </tr>
+            </table>
+        </div>
+        
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.module-box').on('click', function () {
+                    $(this).toggleClass('open');
+                });
+            });
+            initSubtrees();
+        </script>
+        
+        <script type="text/javascript"> // rough fix for the bug that causes translated labels to not be fully loaded
+            setTimeout(function() {updateTranslations(localStorage.getItem('lang'));}, 100);
+            setTimeout(function() {updateTranslations(localStorage.getItem('lang'));}, 300);
+            setTimeout(function() {updateTranslations(localStorage.getItem('lang'));}, 500);
+        </script>
+        
+    </body>
+</html>

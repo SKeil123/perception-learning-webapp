@@ -1,0 +1,43 @@
+<script>
+        numberOfUnitsPerModule = {
+            'm1': 3,
+            'm2': 4,
+            'm3': 4,
+            'm4': 3,
+        };
+
+        console.log(numberOfUnitsPerModule);
+
+        if (urlParameters.has('module')) {
+            function openUnit(unit) {
+                var landingPage = window.open('../index.html?module=' + urlParameters.get('module') + '&unit=' + unit, '_self');
+            }
+
+            numberOfButtons = numberOfUnitsPerModule['m' + urlParameters.get('module')];
+            console.log('Number of buttons: ' + numberOfButtons);
+
+            var unit_navigation_bar = document.getElementById('unit_navigation');
+
+            for (var i = 0; i < numberOfButtons; i++) {
+                var input = document.createElement('input');
+                input.setAttribute('class', 'lang');
+                input.setAttribute('key', 'unitButton' + (i + 1));
+                input.setAttribute('style', 'height:6%; width:' + (50 / (numberOfButtons)) + '%; min-width: 130px; font-size:153%; color:white; background:#23396e; border-radius: 90px; padding:10px; margin: 0.5%;');
+                input.setAttribute('type', 'button');
+                // input.setAttribute('value', 'Lerneinheit ' + (i + 1));
+                // old approach -> open unit in nested navigation tree on landing page when switching between the units:
+                // input.setAttribute('onClick', "window.location.href='javascript:openUnit(" + (i + 1) + ")'");
+
+                // new approach -> open first interaction when switching between the units:
+                input.setAttribute('onClick', "window.location.href='../interactions/interaction.html?module=" + urlParameters.get('module') + "&unit=" + (i + 1) + "&interaction=1'");
+                if (urlParameters.get('unit') === (i + 1).toString()) {
+                    input.setAttribute('style', 'height:6%; width:' + (50 / (numberOfButtons)) + '%; min-width: 130px; font-size:153%; color:white; background:#3B3B3B; border-radius: 90px; padding:10px; margin: 0.5%; box-shadow: 1px 2px 0px 1px rgba(0, 0, 0, 0.4);');
+                    input.disabled = true;
+                }
+                console.log('Unit: ' + i);
+                console.log(input);
+                unit_navigation_bar.appendChild(input);
+            }
+        }
+
+    </script>
